@@ -14,6 +14,10 @@ setup(name='amtokenizers',
       install_requires = ["transformers"],
       license="MIT",
       long_description = long_description,
+      include_package_data=True,
+      package_data = {
+          "":["data/*"]
+      }
       
       
      )

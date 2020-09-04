@@ -16,7 +16,7 @@ class AmTokenizer(object):
         self.__load_tokenizer()
     def __load_tokenizer(self):
         parent_path, _ = os.path.split(__file__)
-        parent_path, _ = os.path.split(parent_path)
+
         
         data_path = os.path.join(parent_path, "data")
         merge_file_path = os.path.join(data_path, "amhtok-{}-{}-{}-merges.txt".format(self.__vocab_size, self.__min_frequence, self.__tokenizer_name))
