@@ -5,7 +5,7 @@ import os
 
 
 class AmTokenizer(object):
-    def __init__(self, vocab_size, min_frequence, tokenizer_name = "bpe_level"):
+    def __init__(self, vocab_size = 25_000, min_frequence=5, tokenizer_name = "byte_bpe"):
         assert vocab_size in vocab_sizes, "Model for vocabulary size:{} is not available!\nModels are avilable for vocab size:{}".format(vocab_size, list(vocab_sizes))
         assert min_frequence in min_frequences, "Model for min frequency:{} is not available!\nModels are avilable for min frequencies:{}".format(min_frequence, list(min_frequences))
         assert tokenizer_name in tokenizers, "Model for tokenizer:{} is not available!\nModels are avilable for tokenizers:{}".format(tokenizer_name, list(tokenizers))
