@@ -21,8 +21,10 @@ from amtokenizers import AmTokenizer
 a  = AmTokenizer(10000, 5 , "byte_bpe")
 encoded = a.encode("አበበ በሶ በላ።", return_tokens=False)
 print("encoded", encoded.tokens)
-
+# encoded ['<s>', 'áĬł', 'áīłáīł', 'ĠáīłáĪ¶', 'ĠáīłáĪĭ', 'áį', '¢', '</s>']
 print("decoded:", a.decode(encoded.ids))
+# decoded: <s>አበበ በሶ በላ።</s>
+
 
 ```
 
