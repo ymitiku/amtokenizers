@@ -5,15 +5,16 @@ import os
 
 
 class AmTokenizer(object):
-    def __init__(self, vocab_size = 25_000, min_frequence=5, tokenizer_name = "byte_bpe"):
+    def __init__(self, vocab_size = 25_000, min_frequence=5, tokenizer_name = "byte_bpe", max_length= None):
         assert vocab_size in vocab_sizes, "Model for vocabulary size:{} is not available!\nModels are avilable for vocab size:{}".format(vocab_size, list(vocab_sizes))
         assert min_frequence in min_frequences, "Model for min frequency:{} is not available!\nModels are avilable for min frequencies:{}".format(min_frequence, list(min_frequences))
         assert tokenizer_name in tokenizers, "Model for tokenizer:{} is not available!\nModels are avilable for tokenizers:{}".format(tokenizer_name, list(tokenizers))
-        
+        self.max_length = max_length
         self.__vocab_size = vocab_size
         self.__min_frequence = min_frequence
         self.__tokenizer_name = tokenizer_name
         self.__load_tokenizer()
+        
     def __load_tokenizer(self):
         parent_path, _ = os.path.split(__file__)
 
@@ -45,9 +46,10 @@ class AmTokenizer(object):
         
         
     def encode(self, string, return_tokens = True):
-        
-        encoded = self.__tokenizer.encode(string)
-        print(encoded)
+        if self.max_length is not None:
+            encoded = self.__tokenizer.encode(string, padding="max_length", truncation=True )
+        else:
+            encoded = self.__tokenizer.encode(string)
         if return_tokens:
             encoded = encoded.tokens
         return encoded
