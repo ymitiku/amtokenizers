@@ -20,10 +20,10 @@ pip install -i https://test.pypi.org/simple/ amtokenizers==0.0.5
 from amtokenizers import AmTokenizer
 
 a  = AmTokenizer(10000, 5 , "byte_bpe")
-encoded = a.encode("አበበ በሶ በላ።", return_tokens=False)
+encoded = a.encode("አበበ በሶ በላ።")
 print("encoded", encoded.tokens)
 # encoded ['<s>', 'áĬł', 'áīłáīł', 'ĠáīłáĪ¶', 'ĠáīłáĪĭ', 'áį', '¢', '</s>']
-print("decoded:", a.decode(encoded.ids))
+print("decoded:", a.decode(encoded.input_ids))
 # decoded: <s>አበበ በሶ በላ።</s>
 ```
 ### Fixed length
