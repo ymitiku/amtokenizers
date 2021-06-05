@@ -1,5 +1,5 @@
 
-# Amharic Langugae Tokenizers
+# Amharic Language Tokenizers
 
 This package contains set of Classes which can be used to encode Amharic language sentences into tokens that could be used by language models. The tokenizers are trained using [Contemporary Amharic Corpus (CACO)](https://www.findke.ovgu.de/findke/en/Research/Data+Sets/Contemporary+Amharic+Corpus+%28CACO%29-p-1142.html) dataset
 
