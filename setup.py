@@ -6,7 +6,7 @@ with open("./README.md") as f:
     long_description = f.read()
 
 setup(name='amtokenizers',
-      version='0.0.7',
+      version='0.0.8',
       description='Amharic language tokenizers',
       author='Mitiku Yohannes',
       author_email='se.mitiku.yohannes@gmail.com',
