@@ -2,6 +2,10 @@ from tokenizers import ByteLevelBPETokenizer, BertWordPieceTokenizer, CharBPETok
 from tokenizers import processors
 from .params import min_frequences, vocab_sizes, tokenizers
 import os
+import IPython
+from transformers import RobertaTokenizerFast, DataCollatorForLanguageModeling
+from tokenizers.processors import BertProcessing
+
 
 
 class AmTokenizer(object):
@@ -17,41 +21,27 @@ class AmTokenizer(object):
         
     def __load_tokenizer(self):
         parent_path, _ = os.path.split(__file__)
+        data_path = os.path.join(parent_path, "data")
+        tokenizer_path = os.path.join(data_path, str(self.__vocab_size), str(self.__min_frequence), self.__tokenizer_name)
+    
+        self.__tokenizer = RobertaTokenizerFast.from_pretrained(tokenizer_path, max_len=self.max_length)
+            
+        self.__tokenizer._tokenizer.post_processor = BertProcessing(
+            ("</s>", self.__tokenizer.convert_tokens_to_ids("</s>")),
+            ("<s>", self.__tokenizer.convert_tokens_to_ids("<s>")),
+        )
 
         
-        data_path = os.path.join(parent_path, "data")
-        merge_file_path = os.path.join(data_path, "amhtok-{}-{}-{}-merges.txt".format(self.__vocab_size, self.__min_frequence, self.__tokenizer_name))
-        vocab_file_path = os.path.join(data_path, "amhtok-{}-{}-{}-vocab.json".format(self.__vocab_size, self.__min_frequence, self.__tokenizer_name))
-        
-        self.__tokenizer = self.__get_tokenizer(self.__tokenizer_name)(vocab_file_path, merge_file_path)
-        self.__tokenizer._tokenizer.post_processor = processors.BertProcessing(
-            ("</s>", self.__tokenizer.token_to_id("</s>")),
-            ("<s>", self.__tokenizer.token_to_id("<s>")),
-        )
-        self.__tokenizer.enable_truncation(max_length=512)
-        
                 
-    def __get_tokenizer(self, name):
-        if name == "word_peice":
-            return BertWordPieceTokenizer
-        elif name == "byte_bpe":
-            return ByteLevelBPETokenizer
-        elif name == "char_bpe":
-            return CharBPETokenizer
-        else:
-            return SentencePieceBPETokenizer
-        
-    def __get_precessor(self, name):
-        return BertProcessing
+ 
         
         
-    def encode(self, string, return_tokens = True):
+    def encode(self, string):
         if self.max_length is not None:
-            encoded = self.__tokenizer.encode(string, padding="max_length", truncation=True )
+            encoded = self.__tokenizer(string, padding="max_length", truncation=True )
         else:
-            encoded = self.__tokenizer.encode(string)
-        if return_tokens:
-            encoded = encoded.tokens
+            encoded = self.__tokenizer(string)
+       
         return encoded
         
     
